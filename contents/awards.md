@@ -1,1 +1,1 @@
-Nan but soon
+- 2nd Prize, National Olympiad in Informatics Sprint Test | 2023

@@ -23,7 +23,7 @@ window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', eve
     }
 });
 
-const content_dir = 'contents/';
+const content_dir = '../contents/';
 const config_file = 'config.yml';
 const section_names = ['home', 'news', 'publications', 'awards', 'project', 'service', 'CV'];
 
@@ -54,7 +54,37 @@ function loadPageContent() {
     promises.push(yamlPromise);
 
     // 2. 按需渲染 Markdown (只读取当前页面中真实存在的 DOM 容器)
-    marked.use({ mangle: false, headerIds: false });
+    marked.use({
+        mangle: false,
+        headerIds: false,
+        renderer: {
+            listitem(text) {
+                // Check if the list item has an <img> or <video> tag
+                const tempDiv = document.createElement('div');
+                tempDiv.innerHTML = text;
+                const mediaEl = tempDiv.querySelector('img, video');
+                if (mediaEl) {
+                    mediaEl.remove();
+                    const restOfHtml = tempDiv.innerHTML;
+
+                    // Ensure video tags have user-friendly properties
+                    if (mediaEl.tagName.toLowerCase() === 'video') {
+                        mediaEl.setAttribute('controls', '');
+                        mediaEl.setAttribute('preload', 'metadata');
+                        mediaEl.setAttribute('playsinline', '');
+                    }
+
+                    return `<li class="project-item">
+    <div class="project-text">${restOfHtml}</div>
+    <div class="project-image-container">
+        ${mediaEl.outerHTML}
+    </div>
+</li>`;
+                }
+                return `<li>${text}</li>`;
+            }
+        }
+    });
     section_names.forEach(name => {
         const el = document.getElementById(name + '-md');
         if (el) {
@@ -63,14 +93,14 @@ function loadPageContent() {
                 .then(markdown => {
                     const html = marked.parse(markdown);
                     el.innerHTML = html;
-                    
+
                     // markdown 加载完毕后，触发 MathJax 数学公式排版
                     if (window.MathJax && MathJax.typeset) {
                         MathJax.typeset();
                     }
                 })
                 .catch(error => console.error(`Error loading markdown (${name}):`, error));
-            
+
             promises.push(mdPromise);
         }
     });
@@ -82,7 +112,7 @@ function loadPageContent() {
 function highlightActiveLink() {
     const currentPath = window.location.pathname;
     let currentFileName = currentPath.substring(currentPath.lastIndexOf('/') + 1);
-    
+
     // 如果是网站根目录，默认定位到 index.html
     if (currentFileName === '' || currentFileName === '/') {
         currentFileName = 'index.html';
@@ -92,7 +122,7 @@ function highlightActiveLink() {
     navLinks.forEach(link => {
         link.classList.remove('active');
         const href = link.getAttribute('href');
-        
+
         if (href === currentFileName) {
             link.classList.add('active');
         }
@@ -134,7 +164,7 @@ function initMobileMenu() {
 function updateThemeToggleButtons() {
     const currentTheme = document.documentElement.getAttribute('data-theme') || 'light';
     const isDark = currentTheme === 'dark';
-    
+
     // 更新 PC 端按钮文字
     const pcBtnText = document.querySelector('#themeToggleBtn .theme-toggle-text');
     if (pcBtnText) {
@@ -146,19 +176,19 @@ function updateThemeToggleButtons() {
 function setupThemeToggleListeners() {
     const pcBtn = document.getElementById('themeToggleBtn');
     const mobileBtn = document.getElementById('themeToggleBtnMobile');
-    
+
     const toggleTheme = () => {
         const currentTheme = document.documentElement.getAttribute('data-theme') || 'light';
         const newTheme = currentTheme === 'light' ? 'dark' : 'light';
-        
+
         document.documentElement.setAttribute('data-theme', newTheme);
         localStorage.setItem('theme', newTheme);
         updateThemeToggleButtons();
     };
-    
+
     if (pcBtn) pcBtn.addEventListener('click', toggleTheme);
     if (mobileBtn) mobileBtn.addEventListener('click', toggleTheme);
-    
+
     // 初始化按钮文字与状态
     updateThemeToggleButtons();
 }
@@ -178,7 +208,7 @@ function initMobileHeaderTitle() {
 function handleScroll() {
     const mobileHeader = document.querySelector('.mobile-header');
     const titleSpan = document.getElementById('mobileSectionTitle');
-    
+
     // 始终保持小标题的文字内容与侧边栏激活的导航项绝对一致（即便在未滚动时也准备就绪）
     if (titleSpan) {
         const activeLink = document.querySelector('#sidebarNav .nav-link.active');
@@ -201,10 +231,10 @@ window.addEventListener('DOMContentLoaded', () => {
     // 渲染本页内容与链接高亮
     loadPageContent();
     highlightActiveLink();
-    
+
     // 初始化移动端顶部小标题
     initMobileHeaderTitle();
-    
+
     // 绑定移动端抽屉事件
     initMobileMenu();
 
@@ -218,7 +248,7 @@ window.addEventListener('DOMContentLoaded', () => {
     // 初始化 Swup 局部路由刷新
     try {
         const swup = new Swup();
-        
+
         // 绑定 Swup 过渡周期钩子：每次页面替换 DOM 完成后重新拉取 markdown 并重新高亮导航栏
         // 使用 async/await 挂起生命周期，等数据拉取并重排重绘完毕后再执行 fade-in 过渡，防止 Reflow 掐断动画
         swup.hooks.on('content:replace', async () => {

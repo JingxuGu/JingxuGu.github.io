@@ -616,3 +616,78 @@ html[data-theme="dark"] pre {
     background: #0f172a !important;
     border: 1px solid var(--border-color);
 }
+
+/* ==================== 60%/40% PREMIUM PROJECT & PUBLICATION LAYOUT ==================== */
+.project-item {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    gap: 1.5rem;
+    margin-bottom: 2.5rem;
+    list-style: none !important;
+    padding: 0 !important;
+    margin-left: 0 !important;
+}
+
+.project-text {
+    flex: 0 0 60%;
+    max-width: 60%;
+}
+
+.project-image-container {
+    flex: 0 0 40%;
+    max-width: 40%;
+    display: flex;
+    justify-content: flex-start;
+}
+
+.project-image-container img,
+.project-image-container video {
+    width: 100%;
+    max-width: 420px;
+    height: auto;
+    border-radius: 12px;
+    box-shadow: 0 10px 15px -3px var(--shadow-color), 0 4px 6px -4px var(--shadow-color);
+    border: 1px solid var(--card-border);
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.3s ease;
+    background-color: var(--border-color);
+}
+
+.project-image-container img:hover,
+.project-image-container video:hover {
+    transform: translateY(-4px) scale(1.02);
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.12), 0 10px 10px -5px rgba(0, 0, 0, 0.06);
+}
+
+/* Clear list bullet indentations for custom layouts */
+.main-body > ul {
+    padding-left: 0 !important;
+}
+
+/* Mobile responsive layout */
+@media screen and (max-width: 768px) {
+    .project-item {
+        flex-direction: column !important;
+        gap: 1rem;
+        margin-bottom: 3rem;
+    }
+    
+    .project-text {
+        flex: 0 0 100% !important;
+        max-width: 100% !important;
+    }
+    
+    .project-image-container {
+        flex: 0 0 100% !important;
+        max-width: 100% !important;
+        justify-content: flex-start;
+        width: 100%;
+    }
+    
+    .project-image-container img,
+    .project-image-container video {
+        width: 100% !important;
+        max-width: 420px !important;
+        height: auto !important;
+    }
+}
