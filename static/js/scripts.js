@@ -25,7 +25,7 @@ window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', eve
 
 const content_dir = '/contents/';
 const config_file = 'config.yml';
-const section_names = ['home', 'news', 'publications', 'awards', 'project', 'service', 'CV'];
+const section_names = ['home', 'news', 'publications', 'awards', 'project', 'CV'];
 
 // 加载并渲染页面内容 (YAML 静态配置 + 按需 Markdown 渲染)
 // 升级为返回包含所有并行拉取请求的 Promise.all，使得 Swup 能够在内容重排渲染完毕后才开启淡入动画

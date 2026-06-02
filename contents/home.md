@@ -11,12 +11,12 @@ A freshman of NanJing University, majoring in Software Engineering, currently se
 #### Education
 
 🕒 **2022.9 - 2025.6**  
-📍 **Shijiazhuang No.2 Senior High School**  
-📝 **TOP 0.005% in College Entrance Examination**
+📍 **Shijiazhuang No.2 Senior High School.**  
+📝 **TOP 0.005% in College Entrance Examination.**
 
 🕒 **2025.9 - 2029.6** *(Undergraduate)*  
-📍 **Nanjing University**  
-🎓 **Major in Software Engineering**
+📍 **Nanjing University.**  
+🎓 **Major in Software Engineering.**
 
 ------
 
