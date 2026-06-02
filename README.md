@@ -1,6 +1,6 @@
 # Academic Personal site of Jingxu Gu
 
-## Automatically typeset using the markdown language
+## Automatically typeset with markdown
 
 insert photos:
 

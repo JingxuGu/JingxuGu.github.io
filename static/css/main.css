@@ -93,7 +93,7 @@ body {
     top: 0;
     left: 0;
     bottom: 0;
-    width: 280px;
+    width: 320px;
     background: var(--sidebar-bg);
     padding: 2.5rem 1.5rem;
     display: flex;
@@ -205,7 +205,7 @@ body {
 
 /* 主内容包裹区 */
 main {
-    margin-left: 280px;
+    margin-left: 320px;
     min-height: 100vh;
     transition: margin-left var(--transition-speed) cubic-bezier(0.4, 0, 0.2, 1), background-color 0.3s ease;
     background: var(--bg-primary);
@@ -343,7 +343,7 @@ main a:hover {
 @media screen and (max-width: 991px) {
     .sidebar {
         transform: translateX(-100%);
-        width: 280px;
+        width: 320px;
         position: fixed;
         top: 0;
         left: 0;

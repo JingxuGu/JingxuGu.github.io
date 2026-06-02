@@ -1,3 +1,3 @@
 - <video src="/media/yolo26.mp4"></video> **RoboMaster Armor Detection & TensorRT Acceleration**  
   - Trained a lightweight YOLO26 object detection model using the Southwest University dataset and successfully deployed it onto the NVIDIA Jetson Orin NX platform. Developed a high-performance C++ post-processing pipeline featuring adaptive Letterbox alignment, TensorRT 10.x asynchronous inference decoding, and multi-target NMS filtering, achieving full-frame, ultra-low latency perception in high-speed combat environments.
-  - [Github Repo]()
+  - [Github Repo](https://github.com/GrainRainy/rm_vision)
