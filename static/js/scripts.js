@@ -23,7 +23,7 @@ window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', eve
     }
 });
 
-const content_dir = '../contents/';
+const content_dir = '/contents/';
 const config_file = 'config.yml';
 const section_names = ['home', 'news', 'publications', 'awards', 'project', 'service', 'CV'];
 
@@ -111,19 +111,18 @@ function loadPageContent() {
 // 高亮侧栏对应的当前导航链接
 function highlightActiveLink() {
     const currentPath = window.location.pathname;
-    let currentFileName = currentPath.substring(currentPath.lastIndexOf('/') + 1);
-
-    // 如果是网站根目录，默认定位到 index.html
-    if (currentFileName === '' || currentFileName === '/') {
-        currentFileName = 'index.html';
-    }
-
     const navLinks = document.querySelectorAll('#sidebarNav .nav-link');
+    
     navLinks.forEach(link => {
         link.classList.remove('active');
         const href = link.getAttribute('href');
+        if (!href) return;
 
-        if (href === currentFileName) {
+        // Clean up both href and currentPath for comparison (e.g. "/news/" -> "news", "/news/index.html" -> "news")
+        const cleanHref = href.replace(/^\/|\/$/g, '').replace('index.html', '');
+        const cleanPath = currentPath.replace(/^\/|\/$/g, '').replace('index.html', '');
+
+        if (cleanHref === cleanPath) {
             link.classList.add('active');
         }
     });
