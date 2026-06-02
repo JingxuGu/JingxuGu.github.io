@@ -67,11 +67,15 @@ function loadPageContent() {
                     mediaEl.remove();
                     const restOfHtml = tempDiv.innerHTML;
 
-                    // Ensure video tags have user-friendly properties
+                    // Ensure video tags have autoplay, loop, and muted properties (seamless background integration)
                     if (mediaEl.tagName.toLowerCase() === 'video') {
-                        mediaEl.setAttribute('controls', '');
-                        mediaEl.setAttribute('preload', 'metadata');
+                        mediaEl.removeAttribute('controls');
+                        mediaEl.setAttribute('autoplay', '');
+                        mediaEl.setAttribute('loop', '');
+                        mediaEl.setAttribute('muted', '');
                         mediaEl.setAttribute('playsinline', '');
+                        mediaEl.setAttribute('preload', 'auto');
+                        mediaEl.setAttribute('disablePictureInPicture', '');
                     }
 
                     return `<li class="project-item">
