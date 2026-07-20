@@ -4,7 +4,7 @@
 
 [Github](https://github.com/GrainRainy) | [知乎](https://www.zhihu.com/people/can-ruo-fan-xing-73-19)
 
-A freshman of NanJing University, majoring in Software Engineering, currently seeking a major transfer to Intelligent Science and Technology. 
+A freshman of NanJing University, majoring in Intelligent Science and Technology (Artificial Intelligence). 
 
 -------
 
@@ -21,8 +21,6 @@ A freshman of NanJing University, majoring in Software Engineering, currently se
 ------
 
 #### Research Interests
-
-My current passion revolves around building **EFFICIENT** system solutions to AGI and more reliable robotics. 
 
 I’m actively looking for **Embodied AI**, **Robotic Learning**, and **Physical General-Purpose Agent** <u>Research Opportunities.</u> This includes:
 * **Data-Efficient Robot Learning:** Training robust Vision-Language-Action (VLA) models and world models without massive compute or data requirements.
