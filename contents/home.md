@@ -16,7 +16,7 @@ A freshman of NanJing University, majoring in Intelligent Science and Technology
 
 🕒 **2025.9 - 2029.6** *(Undergraduate)*  
 📍 **Nanjing University.**  
-🎓 **Major in Software Engineering.**
+🎓 **Major in Intelligence Science and Technology.**
 
 ------
 
