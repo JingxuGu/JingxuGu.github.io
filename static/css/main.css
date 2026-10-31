@@ -1,0 +1,770 @@
+@import "./styles.css";
+@import url('https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,200..800;1,6..72,200..800&display=swap');
+
+/* ==================== THEME SYSTEM ==================== */
+/* 默认浅色模式 (Light Mode) */
+:root {
+    --bg-primary: #f8fafc;
+    /* 柔和的浅灰蓝背景 */
+    --bg-card: #ffffff;
+    /* 纯白主内容卡片 */
+    --text-primary: #0f172a;
+    /* 醒目深黑色（高对比度） */
+    --text-secondary: #1e293b;
+    /* 深石板黑正文（大幅增强对比度，阅读体验极佳） */
+    --border-color: #cbd5e1;
+    /* 边框色 */
+    --card-border: #e2e8f0;
+    /* 卡片边框 */
+    --shadow-color: rgba(15, 23, 42, 0.04);
+    --h-title-color: #0f172a;
+    /* 醒目深黑色 */
+    --link-color: #2563eb;
+    /* 经典学术皇家蓝 */
+    --link-hover-color: #1d4ed8;
+    /* 悬停深蓝 */
+    --link-underline: rgba(37, 99, 235, 0.28);
+    /* 柔和半透的蓝色下划线 */
+    --link-hover-bg: rgba(37, 99, 235, 0.06);
+    /* 极细微的悬停淡高光胶囊背景 */
+    --accent-hover: rgba(15, 23, 42, 0.03);
+    --highlight-color: rgba(37, 99, 235, 0.22);
+    /* 与主题高度匹配的低饱和度皇家蓝高亮线下划线 */
+
+    --sidebar-bg: #0f172a;
+    /* 侧边栏保持经典深石板色 */
+    --sidebar-text: #94a3b8;
+    --sidebar-text-active: #ffffff;
+    --sidebar-accent: #3b82f6;
+    --sidebar-border: rgba(255, 255, 255, 0.06);
+    --transition-speed: 0.3s;
+    --header-bg-glass: rgba(15, 23, 42, 0.58);
+    /* 极致晶莹的毛玻璃，半透明透明度优化为 0.58 */
+}
+
+/* 深色模式 (Dark Mode) */
+[data-theme="dark"] {
+    --bg-primary: #090d16;
+    /* 极深幽邃太空蓝 */
+    --bg-card: #111827;
+    /* 深邃午夜灰 */
+    --text-primary: #ffffff;
+    /* 纯白色标题（增强对比度） */
+    --text-secondary: #e2e8f0;
+    /* 亮银灰正文（大幅增强对比度，极易阅读） */
+    --border-color: #334155;
+    /* 暗沉石板灰边框 */
+    --card-border: #1f2937;
+    /* 灰黑分割线 */
+    --shadow-color: rgba(0, 0, 0, 0.4);
+    --h-title-color: #f1f5f9;
+    /* 亮白色标题 */
+    --link-color: #60a5fa;
+    /* 柔和明亮的天蓝链接 */
+    --link-hover-color: #93c5fd;
+    /* 高亮淡蓝 */
+    --link-underline: rgba(96, 165, 250, 0.35);
+    /* 深色模式下半透天蓝下划线 */
+    --link-hover-bg: rgba(96, 165, 250, 0.12);
+    /* 深色模式下微亮淡蓝高光胶囊背景 */
+    --accent-hover: rgba(255, 255, 255, 0.04);
+    --highlight-color: rgba(96, 165, 250, 0.32);
+    /* 与主题高度匹配的低饱和度天际蓝高亮线下划线 */
+
+    --sidebar-bg: #07090f;
+    /* 彻底融入暗黑环境的黑曜石侧边栏 */
+    --sidebar-border: rgba(255, 255, 255, 0.04);
+    --sidebar-text: #64748b;
+    --sidebar-text-active: #f1f5f9;
+    --header-bg-glass: rgba(7, 9, 15, 0.58);
+    /* 暗色模式极致晶莹的毛玻璃，半透明透明度优化为 0.58 */
+}
+
+/* 页面主体与侧栏的基础布局 */
+body {
+    min-height: 100vh;
+    background-color: var(--bg-primary);
+    color: var(--text-primary);
+    overflow-x: hidden;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* 侧边栏布局 */
+.sidebar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    width: 320px;
+    background: var(--sidebar-bg);
+    padding: 2.5rem 1.5rem;
+    display: flex;
+    flex-direction: column;
+    z-index: 1040;
+    border-right: 1px solid var(--sidebar-border);
+    transition: transform var(--transition-speed) cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* 品牌区（头像、名字、标语） */
+.sidebar-brand {
+    text-align: center;
+    margin-bottom: 2.5rem;
+}
+
+.sidebar-brand .avatar {
+    width: 130px;
+    height: 130px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 3px solid rgba(255, 255, 255, 0.08);
+    box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.3), 0 8px 10px -6px rgba(0, 0, 0, 0.3);
+    transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1), border-color 0.3s ease;
+    margin-bottom: 1.2rem;
+    display: inline-block;
+}
+
+.sidebar-brand .avatar:hover {
+    transform: scale(1.08) rotate(3deg);
+    border-color: var(--sidebar-accent);
+}
+
+.sidebar-brand h1 {
+    font-size: 1.35rem;
+    font-weight: 700;
+    color: #ffffff;
+    margin-bottom: 0.6rem;
+    font-family: "Kanit", -apple-system, BlinkMacSystemFont, sans-serif;
+    letter-spacing: 0.5px;
+}
+
+.sidebar-brand p {
+    font-size: 0.8rem;
+    color: var(--sidebar-text);
+    line-height: 1.4;
+    margin-bottom: 0;
+    padding: 0 0.5rem;
+}
+
+/* 导航链接 */
+.sidebar .nav-links {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+}
+
+.sidebar .nav-item {
+    width: 100%;
+}
+
+.sidebar .nav-link {
+    display: flex;
+    align-items: center;
+    padding: 0.75rem 1.2rem;
+    color: var(--sidebar-text);
+    font-size: 0.9rem;
+    font-weight: 600;
+    border-radius: 8px;
+    transition: all 0.2s ease;
+    text-decoration: none;
+    letter-spacing: 0.5px;
+}
+
+.sidebar .nav-link:hover {
+    color: var(--sidebar-text-active);
+    background: rgba(255, 255, 255, 0.04);
+    transform: translateX(4px);
+}
+
+.sidebar .nav-link.active {
+    color: var(--sidebar-text-active);
+    background: var(--sidebar-accent);
+    box-shadow: 0 4px 15px rgba(59, 130, 246, 0.4);
+}
+
+/* 侧边栏底部 */
+.sidebar-footer {
+    font-size: 0.75rem;
+    color: #64748b;
+    text-align: center;
+    border-top: 1px solid var(--sidebar-border);
+    padding-top: 1.5rem;
+    margin-top: 1.5rem;
+}
+
+.sidebar-footer a {
+    color: var(--sidebar-text);
+    text-decoration: none;
+    transition: color 0.2s ease;
+}
+
+.sidebar-footer a:hover {
+    color: #ffffff;
+}
+
+/* 主内容包裹区 */
+main {
+    margin-left: 320px;
+    min-height: 100vh;
+    transition: margin-left var(--transition-speed) cubic-bezier(0.4, 0, 0.2, 1), background-color 0.3s ease;
+    background: var(--bg-primary);
+    padding: 4rem 2rem;
+}
+
+/* 移动端顶部标题导航栏 */
+.mobile-header {
+    display: none;
+}
+
+.sidebar-overlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(15, 23, 42, 0.6);
+    backdrop-filter: blur(4px);
+    z-index: 1030;
+    opacity: 0;
+    transition: opacity var(--transition-speed) ease;
+    pointer-events: none;
+}
+
+.sidebar-overlay.show {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+/* Swup 页面过渡容器基础与过渡状态 */
+.transition-fade {
+    opacity: 1;
+    transform: translateY(0);
+    transition: opacity 0.35s cubic-bezier(0.4, 0, 0.2, 1), transform 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+    will-change: opacity, transform;
+}
+
+/* 当动画正在播放时（离开阶段以及新页面刚载入未淡入的初始时刻），保持隐藏和偏移动画 */
+html.is-animating .transition-fade {
+    opacity: 0;
+    transform: translateY(12px);
+}
+
+/* 现有版面内容适配调整 */
+section {
+    padding: 4rem 0;
+    border-radius: 16px;
+    margin-bottom: 2rem;
+    box-shadow: 0 10px 15px -3px var(--shadow-color), 0 4px 6px -4px var(--shadow-color);
+    background: var(--bg-card);
+    border: 1px solid var(--card-border);
+    transition: background-color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+section header {
+    margin-bottom: 2.5rem;
+    border-bottom: 1px solid var(--border-color);
+    padding-bottom: 1rem;
+    transition: border-color 0.3s ease;
+}
+
+section header h2 {
+    font-family: "Newsreader", Georgia, serif !important;
+    color: var(--h-title-color);
+    font-size: 2.2rem;
+    font-weight: 700;
+    line-height: 1.2;
+    display: flex;
+    align-items: center;
+    transition: color 0.3s ease;
+}
+
+section .main-body {
+    font-size: 1.15rem;
+    font-weight: 400;
+    line-height: 1.8;
+    color: var(--text-secondary);
+    transition: color 0.3s ease;
+}
+
+/* Date markers on a shared left-hand timeline for publications and awards. */
+.main-body.timeline {
+    --timeline-gutter: 2rem;
+    position: relative;
+    padding-left: var(--timeline-gutter);
+}
+
+.timeline::before {
+    content: "";
+    position: absolute;
+    left: 0.375rem;
+    top: 0.75rem;
+    bottom: 0.5rem;
+    width: 2px;
+    background: var(--border-color);
+    transform: translateX(-50%);
+}
+
+.timeline > h3 {
+    position: relative;
+    margin: 0 0 1rem;
+    color: var(--link-color);
+    font-size: 1rem;
+    font-weight: 700;
+    line-height: 1.5;
+}
+
+.timeline > h3:not(:first-child) {
+    margin-top: 2rem;
+}
+
+.timeline > h3::before {
+    content: "";
+    position: absolute;
+    left: calc(0.375rem - var(--timeline-gutter));
+    top: 0.75rem;
+    width: 0.75rem;
+    height: 0.75rem;
+    border: 2px solid var(--link-color);
+    border-radius: 50%;
+    background: var(--bg-card);
+    transform: translate(-50%, -50%);
+}
+
+@media screen and (max-width: 575px) {
+    .main-body.timeline {
+        --timeline-gutter: 1.5rem;
+    }
+}
+
+/* 自动捕获 HTML 原生下划线 <u> 格式以及自定义高亮类，替换为与网页主题蓝色匹配的低饱和度、马克笔高亮背景样式（加粗、字号稍微加大、下划线加粗并向上偏移充当文字背景） */
+main u,
+.emphasis-highlight {
+    font-weight: 700 !important;
+    font-size: 1.06em !important;
+    color: var(--text-primary) !important;
+    text-decoration: none !important;
+    /* 彻底消除原生浏览器极其难看的细下划线，避免冲突 */
+    box-shadow: inset 0 -0.48em 0 var(--highlight-color) !important;
+    /* 向上偏移 48% 充当高质感的低饱和度蓝色马克笔背景 */
+    padding: 0 3px !important;
+    /* 左右增加极微内边距，使高亮背景包裹字形更自然 */
+    border-radius: 2px !important;
+    /* 微微圆角，增加学术质感 */
+    background: none !important;
+    display: inline !important;
+    /* 保持行内连续自然换行 */
+}
+
+/* 高自适应的极致奢华学术链接样式 */
+main a {
+    color: var(--link-color);
+    text-decoration: underline;
+    text-decoration-thickness: 1.5px;
+    text-underline-offset: 4px;
+    /* 优雅偏移下划线，不破坏字母字形 (如 g, y, p) 的下延线 */
+    text-decoration-color: var(--link-underline);
+    padding: 1px 4px;
+    margin: -1px -4px;
+    /* 利用负外边距抵消内边距，确保完美融入行内排版，零重排零闪烁 */
+    border-radius: 4px;
+    background-color: transparent;
+    transition: color 0.25s cubic-bezier(0.4, 0, 0.2, 1),
+        text-decoration-color 0.25s cubic-bezier(0.4, 0, 0.2, 1),
+        background-color 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+main a:hover {
+    color: var(--link-hover-color);
+    text-decoration-color: var(--link-hover-color);
+    background-color: var(--link-hover-bg);
+    /* 悬停时淡雅的胶囊高亮背景，极富学术殿堂质感 */
+}
+
+.bg-gradient-primary-to-secondary-light {
+    background: var(--bg-card) !important;
+    border: 1px solid var(--card-border) !important;
+}
+
+.bg-gradient-primary-to-secondary-gray {
+    background: var(--bg-card) !important;
+    border: 1px solid var(--card-border) !important;
+}
+
+/* 响应式媒体查询 */
+@media screen and (max-width: 991px) {
+    .sidebar {
+        transform: translateX(-100%);
+        width: 320px;
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: auto;
+        bottom: 0;
+        height: 100vh;
+        max-height: 100vh;
+        overflow-y: auto;
+        padding: 2rem 1.5rem;
+        box-shadow: 10px 0 25px -5px rgba(0, 0, 0, 0);
+        /* 默认无阴影（完全透明），彻底根治左侧边界阴影渗透溢出 */
+        border-right: 1px solid var(--sidebar-border);
+        border-bottom: none;
+        z-index: 1040;
+        /* 提升至 1040 层级，优雅覆盖在 1035 顶部导航栏之上，实现原生 App 级侧滑 */
+        background: var(--header-bg-glass) !important;
+        backdrop-filter: blur(20px) saturate(190%);
+        -webkit-backdrop-filter: blur(20px) saturate(190%);
+        transition: transform var(--transition-speed) cubic-bezier(0.4, 0, 0.2, 1),
+            box-shadow var(--transition-speed) cubic-bezier(0.4, 0, 0.2, 1) !important;
+    }
+
+    .sidebar.show {
+        transform: translateX(0);
+        box-shadow: 10px 0 25px -5px rgba(0, 0, 0, 0.35);
+        /* 呼出导航栏时，阴影透明度随滑出动作丝滑过渡到 100% */
+    }
+
+    .sidebar-overlay {
+        display: block;
+        z-index: 1039;
+        /* 遮罩层 z-index (1039) 位于侧栏 (1040) 之下，顶部固定导航 (1035) 线上之上 */
+    }
+
+    /* 优化移动端下拉菜单内元素的排版，使其精凑美观 */
+    .sidebar-brand {
+        margin-bottom: 1.5rem;
+    }
+
+    .sidebar-brand .avatar {
+        width: 90px;
+        height: 90px;
+        margin-bottom: 0.8rem;
+    }
+
+    .sidebar-brand h1 {
+        font-size: 1.2rem;
+        margin-bottom: 0.4rem;
+    }
+
+    .sidebar-brand p {
+        font-size: 0.75rem;
+    }
+
+    .sidebar .nav-links {
+        gap: 0.2rem;
+    }
+
+    .sidebar .nav-link {
+        padding: 0.7rem 1.2rem;
+        font-size: 0.88rem;
+        justify-content: flex-start;
+        /* 侧滑抽屉布局下，靠左对齐更显自然美观 */
+    }
+
+    .sidebar .nav-link:hover {
+        transform: translateX(4px);
+        /* 靠左对齐下，悬停微移效果回归 */
+    }
+
+    .sidebar-footer {
+        padding-top: 1rem;
+        margin-top: 1rem;
+    }
+
+    main {
+        margin-left: 0;
+        padding: 5rem 1rem 3rem 1rem;
+    }
+
+    .mobile-header {
+        display: flex;
+        flex-direction: row-reverse;
+        /* 关键：反转布局，使姓名（第1个元素）居右，按钮组（第2个元素）居左 */
+        align-items: center;
+        justify-content: space-between;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 60px;
+        background: var(--header-bg-glass);
+        backdrop-filter: blur(16px) saturate(180%);
+        -webkit-backdrop-filter: blur(16px) saturate(180%);
+        color: #fff;
+        padding: 0 1.5rem;
+        z-index: 1035;
+        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+        border-bottom: 1px solid var(--sidebar-border);
+        /* 磨砂玻璃边缘高光 */
+    }
+
+    .mobile-brand {
+        font-size: 1.15rem;
+        font-weight: 700;
+        color: #ffffff !important;
+        /* 强制覆盖全局 Bootstrap 默认链接色，在常态下保持高级纯白 */
+        text-decoration: none !important;
+        font-family: "Newsreader", Georgia, serif;
+        letter-spacing: 0.5px;
+        transition: color 0.3s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.3s ease;
+    }
+
+    .mobile-brand:hover {
+        color: var(--link-color) !important;
+        /* 悬停时采用自适应主题天蓝色，与学术超链接极致呼应 */
+        opacity: 0.9;
+        text-decoration: none !important;
+        /* 彻底去除 Bootstrap 默认产生的难看下划线，保持纯净字形 */
+    }
+
+    .mobile-header-actions {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+    }
+
+    .mobile-menu-toggle {
+        background: none;
+        border: none;
+        color: #fff;
+        font-size: 1.6rem;
+        cursor: pointer;
+        padding: 0;
+        display: flex;
+        align-items: center;
+        transition: color 0.2s ease;
+        order: 1 !important;
+        /* 展开导航按钮排在最左侧 */
+    }
+
+    .mobile-menu-toggle:hover {
+        color: var(--sidebar-accent);
+    }
+
+    /* 滑动至下方时出现的小标题 */
+    .mobile-section-title {
+        order: 2 !important;
+        /* 小标题紧邻排在展开菜单按钮右侧 */
+        font-size: 0.88rem !important;
+        font-weight: 700;
+        color: var(--sidebar-text-active) !important;
+        /* 颜色调整为与菜单栏 Home 等激活字体相同的白色/亮银色 */
+        margin-left: 0.6rem !important;
+        /* 增加与展开按钮之间的优雅呼吸间距 */
+        opacity: 0;
+        transform: translateX(-8px);
+        transition: opacity 0.3s ease, transform 0.3s ease;
+        pointer-events: none;
+        font-family: "Kanit", sans-serif;
+        letter-spacing: 1.5px;
+        text-transform: uppercase;
+    }
+
+    .mobile-header.scrolled .mobile-section-title {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+/* ==================== THEME TOGGLE BUTTON STYLES ==================== */
+/* PC Sidebar Theme Switcher */
+.theme-switch-wrapper {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+}
+
+.theme-toggle-btn {
+    display: grid !important;
+    grid-template-columns: auto auto !important;
+    /* 第一列叠放图标，第二列放置文字 */
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 0.6rem !important;
+    width: 100%;
+    padding: 0.65rem 1rem;
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 20px;
+    color: var(--sidebar-text);
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 1px;
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.theme-toggle-btn:hover {
+    background: rgba(255, 255, 255, 0.08);
+    color: #ffffff;
+    border-color: rgba(255, 255, 255, 0.2);
+    transform: translateY(-1.5px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+/* 文字绑定在第二列 */
+.theme-toggle-btn .theme-toggle-text {
+    grid-column: 2 !important;
+    grid-row: 1 !important;
+}
+
+/* 图标全部绑定在第一列并层叠，用于无损的 CSS 动画过渡 */
+.theme-toggle-btn i {
+    grid-column: 1 !important;
+    grid-row: 1 !important;
+    font-size: 0.95rem;
+    transition: transform 0.6s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 0.4s ease, color 0.4s ease !important;
+    display: inline-block !important;
+}
+
+/* 浅色模式下：太阳显现（不旋转），月亮淡出（反向旋转 180 度） */
+html:not([data-theme="dark"]) .theme-icon-light {
+    opacity: 1 !important;
+    transform: scale(1) rotate(0deg) !important;
+    color: #f59e0b !important;
+    pointer-events: auto;
+}
+
+html:not([data-theme="dark"]) .theme-icon-dark {
+    opacity: 0 !important;
+    transform: scale(0.4) rotate(-180deg) !important;
+    pointer-events: none;
+}
+
+/* 深色模式下：太阳淡出（顺向旋转 180 度），月亮显现（不旋转） */
+html[data-theme="dark"] .theme-icon-light {
+    opacity: 0 !important;
+    transform: scale(0.4) rotate(180deg) !important;
+    pointer-events: none;
+}
+
+html[data-theme="dark"] .theme-icon-dark {
+    opacity: 1 !important;
+    transform: scale(1) rotate(0deg) !important;
+    color: #38bdf8 !important;
+    pointer-events: auto;
+}
+
+/* 鼠标悬停时，活动状态图标的趣味反向微旋 */
+.theme-toggle-btn:hover i.theme-icon-light {
+    transform: scale(1.15) rotate(25deg) !important;
+}
+
+.theme-toggle-btn:hover i.theme-icon-dark {
+    transform: scale(1.15) rotate(-25deg) !important;
+}
+
+html[data-theme="dark"] .theme-toggle-btn {
+    background: rgba(255, 255, 255, 0.02);
+    border-color: rgba(255, 255, 255, 0.05);
+}
+
+/* Mobile Header Actions Layout */
+.mobile-header-actions {
+    display: flex;
+    align-items: center;
+    gap: 1.2rem;
+}
+
+/* Academic Subcomponents Color Adaptability for Dark Mode */
+html[data-theme="dark"] table,
+html[data-theme="dark"] th,
+html[data-theme="dark"] td {
+    border-color: var(--border-color) !important;
+}
+
+html[data-theme="dark"] code {
+    background: #1e293b;
+    color: #f472b6;
+    padding: 0.2rem 0.4rem;
+    border-radius: 4px;
+}
+
+html[data-theme="dark"] pre {
+    background: #0f172a !important;
+    border: 1px solid var(--border-color);
+}
+
+/* ==================== 60%/40% PREMIUM PROJECT & PUBLICATION LAYOUT ==================== */
+.project-item {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    gap: 1.5rem;
+    margin-bottom: 2.5rem;
+    list-style: none !important;
+    padding: 0 !important;
+    margin-left: 0 !important;
+}
+
+.project-text {
+    flex: 0 0 60%;
+    max-width: 60%;
+}
+
+.project-image-container {
+    flex: 0 0 40%;
+    max-width: 40%;
+    display: flex;
+    justify-content: flex-start;
+}
+
+.project-image-container img,
+.project-image-container video {
+    width: 100%;
+    max-width: 420px;
+    height: auto;
+    border-radius: 12px;
+    box-shadow: 0 10px 15px -3px var(--shadow-color), 0 4px 6px -4px var(--shadow-color);
+    border: 1px solid var(--card-border);
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.3s ease;
+    background-color: var(--border-color);
+}
+
+.project-image-container video {
+    border: none !important;
+    box-shadow: none !important;
+    background-color: transparent !important;
+    pointer-events: none !important;
+}
+
+.project-image-container img:hover {
+    transform: translateY(-4px) scale(1.02);
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.12), 0 10px 10px -5px rgba(0, 0, 0, 0.06);
+}
+
+/* Clear list bullet indentations for custom layouts */
+.main-body>ul {
+    padding-left: 0 !important;
+}
+
+/* Mobile responsive layout */
+@media screen and (max-width: 768px) {
+    .project-item {
+        flex-direction: column !important;
+        gap: 1rem;
+        margin-bottom: 3rem;
+    }
+
+    .project-text {
+        flex: 0 0 100% !important;
+        max-width: 100% !important;
+    }
+
+    .project-image-container {
+        flex: 0 0 100% !important;
+        max-width: 100% !important;
+        justify-content: flex-start;
+        width: 100%;
+    }
+
+    .project-image-container img,
+    .project-image-container video {
+        width: 100% !important;
+        max-width: 420px !important;
+        height: auto !important;
+    }
+}
