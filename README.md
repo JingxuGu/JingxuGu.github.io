@@ -16,6 +16,7 @@ assets/
   hat.ico               # Site icon
   media/                # Videos and other media
   photos/               # Profile and content images
+  pdf/                  # CV and publication PDFs
 static/
   css/                  # Stylesheets
   js/                   # Scripts and bundled libraries
