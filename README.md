@@ -22,7 +22,10 @@ static/
 ```
 
 Edit page content in `md/<section>.md`; shared text is in `md/config.yml`.
-Use `### YYYY-MM-DD` headings for dates on the publications and awards timelines.
+Use `### YYYY-MM-DD` headings for dates on all section timelines; month-only
+dates such as `### 2026.06` are also supported.
+Project images and videos show an English loading indicator until ready,
+or an error message if the resource cannot be loaded.
 Section URLs use `/pages/<section>/`; the homepage stays at `/`.
 Use root-relative asset paths such as `/assets/photos/photo.jpeg` and
 `/assets/media/yolo26.mp4` so links work from every section page.

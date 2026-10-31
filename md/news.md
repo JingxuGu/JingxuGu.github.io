@@ -1,1 +1,3 @@
-* 2025.08.30 Start college life.
+### 2025.08.30
+
+Start college life.

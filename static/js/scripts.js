@@ -27,6 +27,37 @@ const content_dir = '/md/';
 const config_file = 'config.yml';
 const section_names = ['home', 'news', 'publications', 'awards', 'project', 'CV'];
 
+// Media loads independently so page navigation can finish while downloads continue.
+function initializeProjectMedia(root) {
+    root.querySelectorAll('.project-image-container').forEach(container => {
+        const media = container.querySelector('img, video');
+        const status = container.querySelector('.media-status');
+        const statusText = container.querySelector('.media-status-text');
+        if (!media || !status || !statusText) return;
+
+        const isVideo = media.tagName.toLowerCase() === 'video';
+        const finish = failed => {
+            container.classList.remove('is-loading');
+            container.classList.toggle('is-error', failed);
+            container.setAttribute('aria-busy', 'false');
+            status.hidden = !failed;
+            if (failed) statusText.textContent = `Unable to load ${isVideo ? 'video' : 'image'}.`;
+        };
+
+        media.addEventListener(isVideo ? 'loadeddata' : 'load', () => finish(false), {once: true});
+        media.addEventListener('error', () => finish(true), {once: true});
+
+        // Cached media may have completed before event listeners were attached.
+        if (isVideo) {
+            media.muted = true;
+            if (media.error) finish(true);
+            else if (media.readyState >= 2) finish(false);
+        } else if (media.complete) {
+            finish(media.naturalWidth === 0);
+        }
+    });
+}
+
 // 加载并渲染页面内容 (YAML 静态配置 + 按需 Markdown 渲染)
 // 升级为返回包含所有并行拉取请求的 Promise.all，使得 Swup 能够在内容重排渲染完毕后才开启淡入动画
 function loadPageContent() {
@@ -80,7 +111,11 @@ function loadPageContent() {
 
                     return `<li class="project-item">
     <div class="project-text">${restOfHtml}</div>
-    <div class="project-image-container">
+    <div class="project-image-container is-loading" aria-busy="true">
+        <div class="media-status" role="status" aria-live="polite">
+            <span class="media-spinner" aria-hidden="true"></span>
+            <span class="media-status-text">Loading ${mediaEl.tagName.toLowerCase() === 'video' ? 'video' : 'image'}…</span>
+        </div>
         ${mediaEl.outerHTML}
     </div>
 </li>`;
@@ -97,6 +132,7 @@ function loadPageContent() {
                 .then(markdown => {
                     const html = marked.parse(markdown);
                     el.innerHTML = html;
+                    initializeProjectMedia(el);
 
                     // markdown 加载完毕后，触发 MathJax 数学公式排版
                     if (window.MathJax && MathJax.typeset) {
